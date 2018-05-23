@@ -192,32 +192,27 @@ exports.randomplay = (req, res, next) => {
 };
 
 // GET /quizzes/:quizId/randomcheck
-exports.ramdomcheck = (req, res, next) => {
-    let answer = req.query.answer;
-    let quizId = req.params.quizId;
-    
-    models.quiz.findById(quizId).then(quiz =>{
-        let score = 0;
-        if(quiz.answer === answer){
-            result = 1;
-            req.session.score++;
-        }else{
-            result = 0;
-            delete req.session.started;
+exports.randomcheck = (req, res, next) => {
+
+    const {quiz, query} = req;
+
+    req.session.randomPlay = req.session.randomPlay || [];
+    var answer = query.answer || "";
+    var result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
+
+    if (result) {
+        if (req.session.randomPlay.indexOf(req.quiz.id) === -1) {
+            req.session.randomPlay.push(req.quiz.id);
         }
-        score = req.session.score;
-        res.render('quizzes/random_result',{
-            score,
-            answer,
-            result
-        })  
-    });
+    }
+    var score = req.session.randomPlay.length;
 
-};
-
-exports.playnomore = (req, res, next) => {
-    let score = 0;
-    res.render('quizzes/random_nomore',{
+    if (!result) {
+        req.session.randomPlay = [];
+    }
+    res.render('quizzes/random_result', {
+        answer,
+        result,
         score
-    })  
+    });
 };
