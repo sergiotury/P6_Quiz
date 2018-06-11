@@ -119,7 +119,6 @@ router.delete('/quizzes/:quizId(\\d+)',
 
 router.get('/quizzes/:quizId(\\d+)/play',  quizController.play);
 router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
-<<<<<<< HEAD
 
 
 
@@ -136,8 +135,6 @@ router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     tipController.destroy);
 
 
-=======
 router.get('/quizzes/randomplay', quizController.randomplay);
 router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.randomcheck);
->>>>>>> practica6
 module.exports = router;
