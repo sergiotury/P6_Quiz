@@ -139,10 +139,10 @@ router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     quizController.adminOrAuthorRequired,
     tipController.destroy);
 
-//Añado dos nuevas rutas para editar y actualizar un tip
+//Rutas para editar y actualizar un tip
 router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
     sessionController.loginRequired,
-    tipController.adminOrAuthorRequired,// me lo invento en /controllers/tip, igual que el de quizController copiar
+    tipController.adminOrAuthorRequired,
     tipController.edit);
 
 

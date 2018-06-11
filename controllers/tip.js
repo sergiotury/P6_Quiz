@@ -93,10 +93,7 @@ exports.adminOrAuthorRequired = (req, res, next) => {
 exports.edit = (req, res, next) => {
 
     const {tip,quiz} = req;
-    // también puedo escribir :
-        //const tip = req.tip;
-        // const quiz = req.quiz;
-
+    
     res.render('tips/edit', {tip:tip, quiz:quiz});
 };
 
@@ -104,17 +101,17 @@ exports.edit = (req, res, next) => {
 // PUT /quizzes/:quizId/tips/:tipId
 exports.update = (req, res, next) => {
 
-    const {quiz, tip, body} = req; //req.body es el cuerpo de la petición con todas las peticiones del formulario
+    const {quiz, tip, body} = req; 
 
-    tip.text = body.text; //body.text viene del name que he puesto en el campo del formulario
+    tip.text = body.text; 
 
-    tip.accepted = false; // que el admin vuelva a tener que moderar la pista (accepted)
+    tip.accepted = false; 
 
 
-    tip.save({fields: ["text", "accepted"]}) //no sería necesario meter el campo de texto, podría poner solo paréntesis
+    tip.save({fields: ["text", "accepted"]})
         .then(quiz => {
             req.flash('success', 'Tip edited successfully.');
-            res.redirect('/goback'); // me va a una página principal, si no podría hacer un redirect.('/back'); para volver a donde estaba
+            res.redirect('/goback'); 
         })
         .catch(Sequelize.ValidationError, error => {
             req.flash('error', 'There are errors in the form:');
