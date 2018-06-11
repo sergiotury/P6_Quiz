@@ -1,17 +1,13 @@
 const Sequelize = require("sequelize");
-<<<<<<< HEAD
 const Op = Sequelize.Op;
 const {models} = require("../models");
-=======
 const { models } = require("../models");
->>>>>>> practica6
 
 const paginate = require('../helpers/paginate').paginate;
 
 // Autoload the quiz with id equals to :quizId
 exports.load = (req, res, next, quizId) => {
 
-<<<<<<< HEAD
     models.quiz.findById(quizId, {
         include: [
             models.tip,
@@ -27,18 +23,6 @@ exports.load = (req, res, next, quizId) => {
         }
     })
     .catch(error => next(error));
-=======
-    models.quiz.findById(quizId)
-        .then(quiz => {
-            if (quiz) {
-                req.quiz = quiz;
-                next();
-            } else {
-                throw new Error('There is no quiz with id=' + quizId);
-            }
-        })
-        .catch(error => next(error));
->>>>>>> practica6
 };
 
 
@@ -60,7 +44,6 @@ exports.adminOrAuthorRequired = (req, res, next) => {
 // GET /quizzes
 exports.index = (req, res, next) => {
 
-<<<<<<< HEAD
     let countOptions = {
         where: {}
     };
@@ -112,13 +95,6 @@ exports.index = (req, res, next) => {
         });
     })
     .catch(error => next(error));
-=======
-    models.quiz.findAll()
-        .then(quizzes => {
-            res.render('quizzes/index.ejs', { quizzes });
-        })
-        .catch(error => next(error));
->>>>>>> practica6
 };
 
 
@@ -156,7 +132,6 @@ exports.create = (req, res, next) => {
     });
 
     // Saves only the fields question and answer into the DDBB
-<<<<<<< HEAD
     quiz.save({fields: ["question", "answer", "authorId"]})
     .then(quiz => {
         req.flash('success', 'Quiz created successfully.');
@@ -171,22 +146,6 @@ exports.create = (req, res, next) => {
         req.flash('error', 'Error creating a new Quiz: ' + error.message);
         next(error);
     });
-=======
-    quiz.save({ fields: ["question", "answer"] })
-        .then(quiz => {
-            req.flash('success', 'Quiz created successfully.');
-            res.redirect('/quizzes/' + quiz.id);
-        })
-        .catch(Sequelize.ValidationError, error => {
-            req.flash('error', 'There are errors in the form:');
-            error.errors.forEach(({ message }) => req.flash('error', message));
-            res.render('quizzes/new', { quiz });
-        })
-        .catch(error => {
-            req.flash('error', 'Error creating a new Quiz: ' + error.message);
-            next(error);
-        });
->>>>>>> practica6
 };
 
 
