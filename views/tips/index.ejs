@@ -1,22 +1,42 @@
+
 <ul>
     <% for (var i in tips) { %>
         <% var tip = tips[i]; %>
+
         <% var accepted = tip.accepted; %>
         <% var isAdmin = session.user && session.user.isAdmin; %>
         <% var isQuizAuthor = session.user && quizAuthorId && quizAuthorId === session.user.id; %>
-        <% var isTipAuthor = session.user && quizAuthorId && quizAuthorId === session.user.id; %>
+        <% var isTipAuthor = session.user  && tip.authorId === session.user.id; %>
+    <!--//creo la variable para ver si soy el autor de un tip-->
+
     <% if (accepted || isAdmin || isQuizAuthor) { %>
+
             <li>
                 <%= tip.text %>
+
                 <% if (!accepted && (isAdmin || isQuizAuthor)) { %>
+
                     <a href="/quizzes/<%= quizId %>/tips/<%= tip.id %>/accept?_method=PUT">
                         <button>Accept</button>
                     </a>
+
+                <% } %>
+
+                <!--//Añado botón de editar-->
+                <% if (isAdmin || isTipAuthor) { %>
+                <!--//dame (GET) la página para editarlo-->
+
+                <a href="/quizzes/<%= quizId %>/tips/<%= tip.id %>/edit?_method=GET">
+                    <button>Edit</button>
+                </a>
+
                 <% } %>
                 <% if (isAdmin || isQuizAuthor) { %>
+
                     <a href="/quizzes/<%= quizId %>/tips/<%= tip.id %>?_method=DELETE">
                         <button>Delete</button>
                     </a>
+
                 <% } %>
                 <div >
                     <small> (Created by <%= tip.author ? tip.author.username : "Anonymous" %>) </small>

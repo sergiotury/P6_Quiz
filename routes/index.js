@@ -52,6 +52,7 @@ router.get('/author', (req, res, next) => {
 });
 
 
+
 // Autoload for routes using :quizId
 router.param('quizId', quizController.load);
 router.param('userId', userController.load);
@@ -120,6 +121,10 @@ router.delete('/quizzes/:quizId(\\d+)',
 router.get('/quizzes/:quizId(\\d+)/play',  quizController.play);
 router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
 
+// Random play
+router.get('/quizzes/randomplay', quizController.randomplay);
+// Random check
+router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.randomcheck);
 
 
 router.post('/quizzes/:quizId(\\d+)/tips',
@@ -134,7 +139,15 @@ router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     quizController.adminOrAuthorRequired,
     tipController.destroy);
 
+//Añado dos nuevas rutas para editar y actualizar un tip
+router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
+    sessionController.loginRequired,
+    tipController.adminOrAuthorRequired,// me lo invento en /controllers/tip, igual que el de quizController copiar
+    tipController.edit);
 
-router.get('/quizzes/randomplay', quizController.randomplay);
-router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.randomcheck);
+
+router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
+    sessionController.loginRequired,
+    tipController.update);
+
 module.exports = router;
